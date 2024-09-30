@@ -2,16 +2,25 @@
 #'
 #' @param id Portfolio ID, as shown in the BBG Terminal under the PRTU Function, default argument is our current portfolio
 #' @param start_date Prices for the portfolio are downloaded starting from this date, default argument is 10 years back
+#' @param df.replace Data frame containing information which securities to replace
 #'
 #' @return Returns a list with two dataframes. "id" contains fundamental data for each position. "prices" contains historical prices for each position.
 #' @export
+#'
+#' @details
+#' You can load the standard format for df.replace by `load(replaceDF)`.
+#' In this dataframe we will update the most practical replacements, but feel free
+#' to adjust the dataframe as needed. The dataframe should however remain in that format in
+#' order for the function to work properly.
+#'
+#'
 #'
 #' @importFrom dplyr rename full_join left_join
 #' @importFrom tidyr pivot_longer
 #' @importFrom Rblpapi bdh bdp getPortfolio
 #' @importFrom lubridate years
 #'
-download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()-years(10)){
+download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()-years(10), df.replace = NULL){
 
   # get the current portfolio
   current.port <- getPortfolio(id, "Portfolio_Data")
@@ -19,6 +28,20 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
   # get portfolio weights
   port.weights <- getPortfolio(id, "Portfolio_MWeight")
   port.weights <- port.weights |> rename("id" = Security)
+
+
+
+  # Replace Securities ------------------------------------------------------
+
+  # replace securities with many missings with similar ones
+  if (!is.null(df.replace)) {
+
+    port.weights <- port.weights |>
+      left_join(df.replace, by = c("id" = "replace")) |>
+      mutate(id = ifelse(is.na(with), id, with)) |>
+      select(-with)
+
+  }
 
 
 

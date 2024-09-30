@@ -6,17 +6,26 @@
 \usage{
 download_port_bbg(
   id = "U31911605-2 Client",
-  start_date = Sys.Date() - years(10)
+  start_date = Sys.Date() - years(10),
+  df.replace = NULL
 )
 }
 \arguments{
 \item{id}{Portfolio ID, as shown in the BBG Terminal under the PRTU Function, default argument is our current portfolio}
 
 \item{start_date}{Prices for the portfolio are downloaded starting from this date, default argument is 10 years back}
+
+\item{df.replace}{Data frame containing information which securities to replace}
 }
 \value{
 Returns a list with two dataframes. "id" contains fundamental data for each position. "prices" contains historical prices for each position.
 }
 \description{
 Download Portfolio Data from Bloomberg
+}
+\details{
+You can load the standard format for df.replace by \code{load(replaceDF)}.
+In this dataframe we will update the most practical replacements, but feel free
+to adjust the dataframe as needed. The dataframe should however remain in that format in
+order for the function to work properly.
 }

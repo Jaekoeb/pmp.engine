@@ -13,6 +13,8 @@
 #'
 #' @return Returns a plot
 #'
+#' @export
+#'
 #'
 plot_price_NAs <- function(df, col.date = date, col.id = id, col.px = px){
 
