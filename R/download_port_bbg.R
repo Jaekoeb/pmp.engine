@@ -74,7 +74,7 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
   # ID Data -----------------------------------------------------------------
 
   # download names for all securities
-  df.id <- bdp(c(port.weights$id, "EURUSD BGN Curncy"), c("SECURITY_NAME", "ISSUER", "CRNCY", "MARKET_SECTOR_DES", "LQA_LIQUIDITY_SCORE"))
+  df.id <- bdp(port.weights$id, c("SECURITY_NAME", "ISSUER", "CRNCY", "MARKET_SECTOR_DES", "LQA_LIQUIDITY_SCORE"))
 
   df.id$id <- rownames(df.id)
   rownames(df.id) <- NULL
@@ -84,7 +84,8 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
     "issuer" = ISSUER,
     "crncy" = CRNCY,
     "mkt_sector" = MARKET_SECTOR_DES,
-    "lqa_liquidity" = LQA_LIQUIDITY_SCORE
+    "lqa_liquidity" = LQA_LIQUIDITY_SCORE,
+    "weight" = "Weight"
   )
 
 

@@ -13,7 +13,7 @@
 #' @importFrom dplyr select pull mutate
 #' @importFrom PerformanceAnalytics Return.calculate
 #'
-security_return <- function(df_price, period = "week", col.id = id, col.px = px, col.date = date){
+security_returns <- function(df_price, period = "week", col.id = id, col.px = px, col.date = date){
 
 
   # Pivot to a long format
