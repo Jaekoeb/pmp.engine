@@ -48,7 +48,7 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
   # Price Data --------------------------------------------------------------
 
   # download price data for all securities in the portfolio
-  df <- bdh(c(port.weights$id, "EURUSD BGN Curncy"), "PX_LAST", start.date = start_date)
+  df <- bdh(port.weights$id, "PX_LAST", start.date = start_date)
 
 
   # define helper function to rename the columns
