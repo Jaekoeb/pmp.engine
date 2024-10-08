@@ -84,8 +84,7 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
     "issuer" = ISSUER,
     "crncy" = CRNCY,
     "mkt_sector" = MARKET_SECTOR_DES,
-    "lqa_liquidity" = LQA_LIQUIDITY_SCORE,
-    "weight" = "Weight"
+    "lqa_liquidity" = LQA_LIQUIDITY_SCORE
   )
 
 
@@ -94,6 +93,10 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
 
   # add the weights to the id dataframe
   df.id <- left_join(df.id, port.weights, by = "id")
+
+
+  # rename weight column
+  df.id <- df.id |> rename( "Weight" = "weight")
 
 
   return(list("id" = df.id, "prices" = df))
