@@ -96,7 +96,7 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
 
 
   # rename weight column
-  df.id <- df.id |> rename( "Weight" = "weight")
+  # df.id <- df.id |> rename( "Weight" = "weight")
 
 
   return(list("id" = df.id, "prices" = df))
