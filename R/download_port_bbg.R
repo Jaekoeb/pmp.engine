@@ -20,7 +20,9 @@
 #' @importFrom Rblpapi bdh bdp getPortfolio
 #' @importFrom lubridate years
 #'
-download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()-years(10), df.replace = NULL){
+download_port_bbg <- function(id = "U31911605-2 Client",
+                              start_date = Sys.Date()-years(3),
+                              df.replace = NULL){
 
   # get the current portfolio
   current.port <- getPortfolio(id, "Portfolio_Data")
@@ -74,7 +76,7 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
   # ID Data -----------------------------------------------------------------
 
   # download names for all securities
-  df.id <- bdp(port.weights$id, c("SECURITY_NAME", "ISSUER", "CRNCY", "MARKET_SECTOR_DES", "LQA_LIQUIDITY_SCORE"))
+  df.id <- bdp(port.weights$id, c("SECURITY_NAME", "ISSUER", "CRNCY", "MARKET_SECTOR_DES"))
 
   df.id$id <- rownames(df.id)
   rownames(df.id) <- NULL
@@ -83,8 +85,7 @@ download_port_bbg <- function(id = "U31911605-2 Client", start_date = Sys.Date()
     "name" = SECURITY_NAME,
     "issuer" = ISSUER,
     "crncy" = CRNCY,
-    "mkt_sector" = MARKET_SECTOR_DES,
-    "lqa_liquidity" = LQA_LIQUIDITY_SCORE
+    "mkt_sector" = MARKET_SECTOR_DES
   )
 
 

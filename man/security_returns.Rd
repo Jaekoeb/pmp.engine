@@ -6,7 +6,7 @@
 \usage{
 security_returns(
   df_price,
-  period = "week",
+  period = "weeks",
   col.id = id,
   col.px = px,
   col.date = date
@@ -22,4 +22,7 @@ Data frame with all security returns
 }
 \description{
 This function computes the return for each security on the portfolio.
+}
+\details{
+Frequency can be one of: "days", "weeks", "months", "quarters" and "years".
 }

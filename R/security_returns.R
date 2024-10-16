@@ -5,6 +5,10 @@
 #' @param df_price Time-series price data frame
 #' @param period Frequency of returns, based on `xts::to.period()`
 #'
+#' @details
+#' Frequency can be one of: "days", "weeks", "months", "quarters" and "years".
+#'
+#'
 #' @return Data frame with all security returns
 #' @export
 #'
@@ -13,7 +17,7 @@
 #' @importFrom dplyr select pull mutate
 #' @importFrom PerformanceAnalytics Return.calculate
 #'
-security_returns <- function(df_price, period = "week", col.id = id, col.px = px, col.date = date){
+security_returns <- function(df_price, period = "weeks", col.id = id, col.px = px, col.date = date){
 
 
   # Pivot to a long format

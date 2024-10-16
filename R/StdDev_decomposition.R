@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @importFrom tidyr pivot_wider
-#' @importFrom xts xts
+#' @importFrom xts xts periodicity
 #' @importFrom dplyr select left_join pull join_by
 #' @importFrom PerformanceAnalytics StdDev
 #'
@@ -44,6 +44,7 @@ StdDev_decomposition <- function(df_returns,
 
   # extract the weights
   wgt <- helper |> select({{col.weight}}) |> pull()
+  wgt <- wgt / 100
 
 
   # compute the risk contribution
@@ -51,6 +52,18 @@ StdDev_decomposition <- function(df_returns,
                    clean = clean,
                    portfolio_method = "component",
                    weights = wgt)
+
+  # figure out scale in order to annualize the StdDev
+  scale <- switch(periodicity(df_returns)$scale,
+                  "daily" = 252,
+                  "weekly" = 52,
+                  "monthly" = 12,
+                  "quarterly" = 4,
+                  "yearly" = 1)
+
+  # annualize volatilities
+  result$StdDev <- result$StdDev * sqrt(scale)
+  result$contribution <- result$contribution * sqrt(scale)
 
 
   return(result)

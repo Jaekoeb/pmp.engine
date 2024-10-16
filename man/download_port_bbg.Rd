@@ -6,7 +6,7 @@
 \usage{
 download_port_bbg(
   id = "U31911605-2 Client",
-  start_date = Sys.Date() - years(10),
+  start_date = Sys.Date() - years(3),
   df.replace = NULL
 )
 }
