@@ -8,6 +8,7 @@
 #' @param df_info Info data frame, downloaded by `download_port_bbg()`
 #' @param clean Cleaning Method for returns to choose. Default parameter is "boudt". Details can be found in the help section of `PerformanceAnalytics::StdDev`
 #' @param method Choose method to compute the VaR. Default parameter is "modified". Detail can be found in the help section of `PerformanceAnalytics::StdDev`
+#' @param sign Significance level for the VaR
 #' @param col.id Name of the "id" column, should be the same for df_returns and df_info
 #' @param col.weight Name of the weight column in df_info
 #' @param col.date Name of the date column in df_returns
@@ -25,6 +26,7 @@ VaR_decomposition <- function(df_returns,
                               df_info,
                               clean = "boudt",
                               method = "modified",
+                              sign = 0.95,
                               col.id = id,
                               col.weight = weight,
                               col.date = date,
@@ -54,7 +56,8 @@ VaR_decomposition <- function(df_returns,
                 clean = clean,
                 method = method,
                 portfolio_method = "component",
-                weights = wgt)
+                weights = wgt,
+                p = sign)
 
 
   # figure out scale in order to annualize the StdDev
