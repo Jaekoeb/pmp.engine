@@ -29,8 +29,14 @@ download_port_bbg <- function(id = "U31911605-2 Client",
 
   # get portfolio weights
   port.weights <- getPortfolio(id, "Portfolio_MWeight")
-  port.weights <- port.weights |> rename("id" = Security)
+  port.weights <- port.weights |>
+    rename("id" = Security,
+           "weight" = Weight)
 
+
+  # remove all securities with 0 weight
+  port.weights <- port.weights |>
+    filter(weight != 0)
 
 
   # Replace Securities ------------------------------------------------------
@@ -95,9 +101,6 @@ download_port_bbg <- function(id = "U31911605-2 Client",
   # add the weights to the id dataframe
   df.id <- left_join(df.id, port.weights, by = "id")
 
-
-  # rename weight column
-  df.id <- df.id |> rename( "weight" = Weight)
 
 
   return(list("id" = df.id, "prices" = df))
