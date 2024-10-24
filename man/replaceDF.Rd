@@ -22,6 +22,10 @@ securities to replace.
 }
 \details{
 I will save the most common replacement, but the dataframe should be updated with portfolio changes.
+
+Current Replacements:
+
+Replaced the Eskom Bond with a South African Governement Bond. Both are denominated in ZAR and have similar maturity.
 }
 \examples{
 data(replaceDF)
