@@ -9,6 +9,7 @@ VaR_decomposition(
   df_info,
   clean = "boudt",
   method = "modified",
+  sign = 0.95,
   col.id = id,
   col.weight = weight,
   col.date = date,
@@ -23,6 +24,8 @@ VaR_decomposition(
 \item{clean}{Cleaning Method for returns to choose. Default parameter is "boudt". Details can be found in the help section of \code{PerformanceAnalytics::StdDev}}
 
 \item{method}{Choose method to compute the VaR. Default parameter is "modified". Detail can be found in the help section of \code{PerformanceAnalytics::StdDev}}
+
+\item{sign}{Significance level for the VaR}
 
 \item{col.id}{Name of the "id" column, should be the same for df_returns and df_info}
 

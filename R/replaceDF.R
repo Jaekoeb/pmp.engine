@@ -7,6 +7,10 @@
 #'
 #' I will save the most common replacement, but the dataframe should be updated with portfolio changes.
 #'
+#' Current Replacements:
+#'
+#' Replaced the Eskom Bond with a South African Governement Bond. Both are denominated in ZAR and have similar maturity.
+#'
 #' @format Data frame with two columns
 #' \describe{
 #' \item{replace}{BBG ID of security you want to replace}
