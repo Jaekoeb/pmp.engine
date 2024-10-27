@@ -19,5 +19,5 @@ plot_price_NAs(df, col.date = date, col.id = id, col.px = px)
 Returns a plot
 }
 \description{
-Function to get an idea where NAs are in the data set. Recommened to take a look before running any analysis.
+Function to get an idea where NAs are in the data set. Recommended to take a look before running any analysis.
 }
