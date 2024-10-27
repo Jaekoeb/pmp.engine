@@ -17,7 +17,7 @@
 plot_price_NAs <- function(df, col.date = date, col.id = id, col.px = px) {
 
   df |>
-    mutate(is_missing = is.na({{col.px}})) %>%
+    mutate(is_missing = is.na({{col.px}})) |>
     ggplot(aes(x = {{col.date}}, y = as.factor({{col.id}}), fill = is_missing)) +
     geom_tile(color = "white", size = 0.1) +
     scale_fill_manual(values = c("TRUE" = "tomato", "FALSE" = "#E0E0E0"),
