@@ -19,19 +19,25 @@ plot_price_NAs <- function(df, col.date = date, col.id = id, col.px = px) {
   df |>
     mutate(is_missing = is.na({{col.px}})) |>
     ggplot(aes(x = {{col.date}}, y = as.factor({{col.id}}), fill = is_missing)) +
-    geom_tile(color = "white", size = 0.1) +
-    scale_fill_manual(values = c("TRUE" = "tomato", "FALSE" = "#E0E0E0"),
-                      labels = c("TRUE" = "Missing", "FALSE" = "Available")) +
-    labs(title = "Missing Values in Time-Series Data",
-         subtitle = "Highlighting periods with missing data",
-         x = "Date",
-         y = "Asset ID",
-         fill = "Data Status") +
+    geom_tile(linewidth = 0) +  # Optimization for faster rendering
+    scale_fill_manual(
+      values = c("TRUE" = "tomato", "FALSE" = "#E0E0E0"),
+      labels = c("TRUE" = "Missing", "FALSE" = "Available")
+    ) +
+    scale_x_date(date_breaks = "2 years", date_labels = "%Y") +  # Optimized date breaks
+    labs(
+      title = "Missing Values in Time-Series Data",
+      subtitle = "Highlighting periods with missing data",
+      x = "Date",
+      y = "Asset ID",
+      fill = "Data Status"
+    ) +
     theme_minimal(base_size = 14) +
     theme(
       plot.title = element_text(hjust = 0.5),
       plot.subtitle = element_text(hjust = 0.5),
-      panel.grid.major = element_line(color = "gray90"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
       axis.text.x = element_text(angle = 45, hjust = 1)
     )
 }
