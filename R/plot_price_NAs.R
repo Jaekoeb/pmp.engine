@@ -7,7 +7,7 @@
 #' @param col.id Name of the id column
 #' @param col.px Name of the price column
 #'
-#' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual labs theme_minimal element_text theme element_line
+#' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual labs theme_minimal element_text theme element_line scale_x_date
 #' @importFrom dplyr mutate
 #'
 #' @return Returns a plot
