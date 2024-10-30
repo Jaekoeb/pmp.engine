@@ -15,7 +15,7 @@
 #'
 #'
 #'
-#' @importFrom dplyr rename full_join left_join
+#' @importFrom dplyr rename full_join left_join filter
 #' @importFrom tidyr pivot_longer
 #' @importFrom Rblpapi bdh bdp getPortfolio
 #' @importFrom lubridate years
