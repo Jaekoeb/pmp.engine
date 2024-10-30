@@ -7,14 +7,15 @@ Description: "This package serves as a framework for code development for the PM
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     ggplot2,
     lubridate,
     PerformanceAnalytics,
     Rblpapi,
-    tidyr
+    tidyr,
+    xts
 Depends: 
     R (>= 2.10)
 LazyData: true
