@@ -9,15 +9,18 @@
 #' @param col.symb Name of the symbol column in returns.
 #' @param col.return Name of the return column in returns.
 #'
-#' @importFrom dplyr filter summarize, pull
+#' @importFrom dplyr filter summarize pull
+#' @importFrom MASS cov.rob
 #'
-#' @return
+#' @return results
 #' @export
 #'
 black_litterman <- function(returns, weights, tau, views, lambda.symb, col.date, col.symb, col.return){
 
 
-  # First compute the risk aversion lambda
+
+# LAMBDA ------------------------------------------------------------------
+  # Compute the risk aversion lambda
   lambda <- returns |>
     filter({{col.symb}} == {{lambda.symb}}) |>
     summarize(
@@ -27,6 +30,88 @@ black_litterman <- function(returns, weights, tau, views, lambda.symb, col.date,
 
 
 
+# COVARIANCE --------------------------------------------------------------
+  # Compute the covariance matrix
+  cov <- returns |>
+    pivot_wider(names_from = {{col.symb}}, values_from = {{col.return}}) |>
+    select(-{{col.date}}) |>
+    cov.rob()
 
+  cov <- cov$cov
+
+  # rearrange it alphabetically
+  cov <- cov[sort(rownames(cov)), sort(colnames(cov))]
+
+
+
+# IMPLIED RETURNS ---------------------------------------------------------
+  # compute the implied returns
+  implied <- lambda * crossprod(cov, weights)
+
+
+
+# VIEWS MATRIX ------------------------------------------------------------
+  # sort the views based on the covariance matrix
+  # construct the Views matrix
+  mu <- views |>
+    mutate(view = 0.5 * min + 0.5 * max) |>
+    select(view) |>
+    pull()
+
+  # add columns names
+  names(mu) <- views |> select(asset) |> pull()
+
+  # rearrange alphabetically
+  mu <- mu[sort(names(mu))]
+
+
+# CONFIDENCE MATRIX -------------------------------------------------------
+
+  # compute the implied standard error
+  view <- view |>
+    mutate(
+      sigma = (max - min)/(2 * conf)
+    )
+
+  # construct confidence matrix
+  omega <- view |> select(sigma) |> pull() |> diag()
+
+  # add row and column names
+  rownames(omega) <- view |> select(asset) |> pull()
+  colnames(omega) <- view |> select(asset) |> pull()
+
+  # rearrange it alphabetically
+  omega <- omega[sort(rownames(omega)), sort(colnames(omega))]
+
+
+# VIEWS MATRIX ------------------------------------------------------------
+
+  # first construct diagonal matrix for all views
+  P <- diag(nrow(cov))
+  rownames(P) <- rownames(cov)
+
+  # delete rows if we dont have a view
+  P <- P[rownames(omega), ]
+
+
+
+# POSTERIOR ---------------------------------------------------------------
+
+
+  # compute posterior variance covariance update
+  upd.cov <- solve(
+    solve(tau * cov) + t(P) %*% solve(omega) %*% P
+  )
+
+  posterior <- upd.cov %*% ( solve(tau * cov) %*% implied + t(P) %*% solve(omega) %*% mu)
+
+
+
+  return(
+    list(
+      implied = implied,
+      posterior = posterior
+    )
+  )
 
 }
