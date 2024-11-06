@@ -39,10 +39,12 @@ black_litterman <- function(returns, weights, tau, views, freq, lambda.symb, col
     select(-{{col.date}}) |>
     cov.rob()
 
-  cov <- cov$cov
+  # extract and annualize
+  cov <- cov$cov * freq
 
   # rearrange it alphabetically
   cov <- cov[sort(rownames(cov)), sort(colnames(cov))]
+
 
 
 
@@ -120,13 +122,12 @@ black_litterman <- function(returns, weights, tau, views, freq, lambda.symb, col
 
 
   # change results back to vectors
-  implied <- implied[, 1] * freq
-  posterior <- posterior[, 1] * freq
+  implied <- implied[, 1]
+  posterior <- posterior[, 1]
   upd.weight <- upd.weight[, 1]
 
-
-
-
+  # sort weights
+  weights <- weights[sort(names(weights))]
 
 
   return(
