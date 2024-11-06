@@ -5,6 +5,8 @@
 #' @param weights Strategic / Current Weights of the asset classes.
 #' @param tau Uncertainty parameter
 #' @param views Views data frame should be of specific form given in details.
+#' @param freq Frequency of returns, given as an integer.
+#' @param lambda.simb Which column to use for computing the risk aversion, given as `char`
 #' @param col.date Name of the date columns in returns.
 #' @param col.symb Name of the symbol column in returns.
 #' @param col.return Name of the return column in returns.
@@ -15,7 +17,7 @@
 #' @return results
 #' @export
 #'
-black_litterman <- function(returns, weights, tau, views, lambda.symb, col.date, col.symb, col.return){
+black_litterman <- function(returns, weights, tau, views, freq, lambda.symb, col.date, col.symb, col.return){
 
 
 
@@ -107,10 +109,32 @@ black_litterman <- function(returns, weights, tau, views, lambda.symb, col.date,
 
 
 
+# UPDATED WEIGHTS ---------------------------------------------------------
+
+  # compute updated weights for posterior returns
+  upd.weight <- solve(lambda * cov) %*% posterior
+
+
+
+# FINAL -------------------------------------------------------------------
+
+
+  # change results back to vectors
+  implied <- implied[, 1] * freq
+  posterior <- posterior[, 1] * freq
+  upd.weight <- upd.weight[, 1]
+
+
+
+
+
+
   return(
     list(
       implied = implied,
-      posterior = posterior
+      posterior = posterior,
+      weights.old = weights,
+      weights.new = upd.weight
     )
   )
 

@@ -10,6 +10,7 @@ black_litterman(
   weights,
   tau,
   views,
+  freq,
   lambda.symb,
   col.date,
   col.symb,
@@ -25,11 +26,15 @@ black_litterman(
 
 \item{views}{Views data frame should be of specific form given in details.}
 
+\item{freq}{Frequency of returns, given as an integer.}
+
 \item{col.date}{Name of the date columns in returns.}
 
 \item{col.symb}{Name of the symbol column in returns.}
 
 \item{col.return}{Name of the return column in returns.}
+
+\item{lambda.simb}{Which column to use for computing the risk aversion, given as \code{char}}
 }
 \value{
 results
