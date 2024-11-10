@@ -9,8 +9,7 @@
 #' @param method Method to handle missing values. Options: "interpolate", "forward", "backward"
 #'
 #' @importFrom dplyr arrange group_by mutate ungroup
-#' @importFrom tidyr fill
-#' @importFrom zoo na.approx
+#' @importFrom zoo na.approx na.locf
 #' @importFrom dplyr %>%
 #'
 #' @return A data frame with missing values filled
@@ -19,34 +18,25 @@
 #'
 fill_price_NAs <- function(df, col.date, col.id, col.px, method = "interpolate") {
   # Load necessary libraries
-  library(dplyr)  # For data manipulation
-  library(tidyr)  # For forward and backward fill
-  library(zoo)    # For interpolation
+  library(dplyr)
+  library(zoo)
 
   # Ensure proper sorting
-  df <- df %>%                              # dplyr: Pipe operator to chain operations
-    arrange({{ col.id }}, {{ col.date }})   # dplyr::arrange(): Sorts by ID and date
+  df <- df %>%
+    arrange({{ col.id }}, {{ col.date }})
 
   # Handle missing values based on the method
   df <- df %>%
-    group_by({{ col.id }}) %>%              # dplyr::group_by(): Groups by asset ID
-    mutate(                                 # dplyr::mutate(): Creates/updates columns
-      {{ col.px }} := case_when(            # dplyr::case_when(): Conditional transformations
-        method == "interpolate" ~ na.approx(  # zoo::na.approx(): Interpolation
-          {{ col.px }},
-          x = {{ col.date }},
-          na.rm = FALSE
-        ),
-        method == "forward" ~ fill(          # tidyr::fill(): Forward fill
-          {{ col.px }}, .direction = "down"
-        ),
-        method == "backward" ~ fill(         # tidyr::fill(): Backward fill
-          {{ col.px }}, .direction = "up"
-        ),
-        TRUE ~ {{ col.px }}                  # Default: No transformation
+    group_by({{ col.id }}) %>%
+    mutate(
+      {{ col.px }} := case_when(
+        method == "interpolate" ~ na.approx(!!ensym(col.px), x = !!ensym(col.date), na.rm = FALSE),
+        method == "forward" ~ na.locf(!!ensym(col.px), na.rm = FALSE),
+        method == "backward" ~ na.locf(!!ensym(col.px), na.rm = FALSE, fromLast = TRUE),
+        TRUE ~ !!ensym(col.px) # Default: No change
       )
     ) %>%
-    ungroup()                               # dplyr::ungroup(): Removes grouping
+    ungroup()
 
-  return(df)                                # base::return(): Returns the modified data frame
+  return(df)
 }
