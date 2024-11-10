@@ -20,8 +20,12 @@ fill_price_NAs <- function(df, col.date, col.id, col.px, method = "interpolate")
   library(dplyr)
   library(zoo)
 
+  # Ensure proper sorting of the data
   df <- df %>%
-    arrange({{ col.id }}, {{ col.date }}) %>%
+    arrange({{ col.id }}, {{ col.date }})
+
+  # Handle missing values based on the method
+  df <- df %>%
     group_by({{ col.id }}) %>%
     mutate(
       {{ col.px }} := case_when(
