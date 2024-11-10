@@ -17,23 +17,18 @@
 #' @export
 #'
 fill_price_NAs <- function(df, col.date, col.id, col.px, method = "interpolate") {
-  # Load necessary libraries
   library(dplyr)
   library(zoo)
 
-  # Ensure proper sorting
   df <- df %>%
-    arrange({{ col.id }}, {{ col.date }})
-
-  # Handle missing values based on the method
-  df <- df %>%
+    arrange({{ col.id }}, {{ col.date }}) %>%
     group_by({{ col.id }}) %>%
     mutate(
       {{ col.px }} := case_when(
         method == "interpolate" ~ na.approx(!!ensym(col.px), x = !!ensym(col.date), na.rm = FALSE),
         method == "forward" ~ na.locf(!!ensym(col.px), na.rm = FALSE),
         method == "backward" ~ na.locf(!!ensym(col.px), na.rm = FALSE, fromLast = TRUE),
-        TRUE ~ !!ensym(col.px) # Default: No change
+        TRUE ~ !!ensym(col.px)
       )
     ) %>%
     ungroup()
