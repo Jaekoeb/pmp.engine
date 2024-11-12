@@ -74,7 +74,7 @@ black_litterman <- function(returns, weights, tau, views, freq, lambda.symb, col
   # compute the implied standard error
   view <- view |>
     mutate(
-      sigma = (max - min)/(2 * conf)
+      sigma = (max - min)/(2 * (-1) * qnorm((1-conf)/2))
     )
 
   # construct confidence matrix
