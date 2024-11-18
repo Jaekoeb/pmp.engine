@@ -2,8 +2,7 @@
 % Please edit documentation in R/black_litterman.R
 \name{black_litterman}
 \alias{black_litterman}
-\title{Black Litterman Model
-This model can be used for asset allocation.}
+\title{Black Litterman Model}
 \usage{
 black_litterman(
   returns,
@@ -11,35 +10,50 @@ black_litterman(
   tau,
   views,
   freq,
-  lambda.symb,
+  lambda,
   col.date,
   col.symb,
   col.return
 )
 }
 \arguments{
-\item{returns}{A matrix of returns of the asset classes.}
+\item{returns}{A matrix of returns of the asset classes in long format.}
 
 \item{weights}{Strategic / Current Weights of the asset classes.}
 
-\item{tau}{Uncertainty parameter}
+\item{tau}{Uncertainty parameter.}
 
 \item{views}{Views data frame should be of specific form given in details.}
 
 \item{freq}{Frequency of returns, given as an integer.}
+
+\item{lambda}{Level of risk aversion in the market}
 
 \item{col.date}{Name of the date columns in returns.}
 
 \item{col.symb}{Name of the symbol column in returns.}
 
 \item{col.return}{Name of the return column in returns.}
-
-\item{lambda.simb}{Which column to use for computing the risk aversion, given as \code{char}}
 }
 \value{
-results
+Returns a list containing the implied returns, posterior returns, input weights and new weights.
 }
 \description{
-Black Litterman Model
-This model can be used for asset allocation.
+This model can be used for asset allocation. The main idea is to combine market implied returns with manager views
+to get a tactical asset allocation.
+}
+\details{
+There is a huge number of explanations and extensions of the Black Litterman model. Here we implemented it in a very simple form.
+An important step of implementing the model is calibrating the parameters, I will go into detail of one possible way:
+
+\code{tau}: Tau corresponds to the uncertainty of the market. A lower tau, means more confidence that the market is right. The original paper suggests 0.25.
+
+\code{lambda}: The risk aversion in the market. There are different ways to estimate this value. One nice approach is to use a baseline
+say 3, and then scale corresponding to the level of the VIX. Is the VIX historically high, risk aversion is higher in the market thus leading
+to a higher risk aversion parameter.
+
+\code{views}: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
+In this way we can give views as confidence intervals. For example we say: "Equities will return 5-10\% with 90\% confidence".
+The input \code{views} should be of a specific form for this functions. It should be a data frame with columns: \code{asset}, \code{min}, \code{max}
+and \code{conf}. Here each view corresponds to a column.
 }

@@ -1,34 +1,41 @@
 #' Black Litterman Model
-#' This model can be used for asset allocation.
 #'
-#' @param returns A matrix of returns of the asset classes.
+#' This model can be used for asset allocation. The main idea is to combine market implied returns with manager views
+#' to get a tactical asset allocation.
+#'
+#' @param returns A matrix of returns of the asset classes in long format.
 #' @param weights Strategic / Current Weights of the asset classes.
-#' @param tau Uncertainty parameter
+#' @param tau Uncertainty parameter.
 #' @param views Views data frame should be of specific form given in details.
 #' @param freq Frequency of returns, given as an integer.
-#' @param lambda.simb Which column to use for computing the risk aversion, given as `char`
+#' @param lambda Level of risk aversion in the market
 #' @param col.date Name of the date columns in returns.
 #' @param col.symb Name of the symbol column in returns.
 #' @param col.return Name of the return column in returns.
 #'
+#' @details
+#' There is a huge number of explanations and extensions of the Black Litterman model. Here we implemented it in a very simple form.
+#' An important step of implementing the model is calibrating the parameters, I will go into detail of one possible way:
+#'
+#' `tau`: Tau corresponds to the uncertainty of the market. A lower tau, means more confidence that the market is right. The original paper suggests 0.25.
+#'
+#' `lambda`: The risk aversion in the market. There are different ways to estimate this value. One nice approach is to use a baseline
+#' say 3, and then scale corresponding to the level of the VIX. Is the VIX historically high, risk aversion is higher in the market thus leading
+#' to a higher risk aversion parameter.
+#'
+#' `views`: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
+#' In this way we can give views as confidence intervals. For example we say: "Equities will return 5-10% with 90% confidence".
+#' The input `views` should be of a specific form for this functions. It should be a data frame with columns: `asset`, `min`, `max`
+#' and `conf`. Here each view corresponds to a column.
+#'
+#'
 #' @importFrom dplyr filter summarize pull
 #' @importFrom MASS cov.rob
 #'
-#' @return results
+#' @return Returns a list containing the implied returns, posterior returns, input weights and new weights.
 #' @export
 #'
-black_litterman <- function(returns, weights, tau, views, freq, lambda.symb, col.date, col.symb, col.return){
-
-
-
-# LAMBDA ------------------------------------------------------------------
-  # Compute the risk aversion lambda
-  lambda <- returns |>
-    filter({{col.symb}} == {{lambda.symb}}) |>
-    summarize(
-      lambda = mean({{col.return}}) / var({{col.return}})
-    ) |>
-    pull()
+black_litterman <- function(returns, weights, tau, views, freq, lambda, col.date, col.symb, col.return){
 
 
 
