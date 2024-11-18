@@ -19,7 +19,7 @@
 #'
 #'
 #' @examples
-#' data(replaceDF)
+#' data("replaceDF")
 #'
 #'
 "replaceDF"

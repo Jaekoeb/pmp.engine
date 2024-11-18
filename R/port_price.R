@@ -17,7 +17,7 @@
 #'
 #'
 #' @examples
-#' data(port_price)
+#' data("port_price")
 #'
 #'
 "port_price"

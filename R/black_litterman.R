@@ -29,7 +29,7 @@
 #' and `conf`. Here each view corresponds to a column.
 #'
 #'
-#' @importFrom dplyr filter summarize pull
+#' @importFrom dplyr select filter summarize pull
 #' @importFrom MASS cov.rob
 #'
 #' @return Returns a list containing the implied returns, posterior returns, input weights and new weights.
