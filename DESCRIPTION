@@ -12,6 +12,7 @@ Imports:
     dplyr,
     ggplot2,
     lubridate,
+    MASS,
     PerformanceAnalytics,
     Rblpapi,
     tidyr,

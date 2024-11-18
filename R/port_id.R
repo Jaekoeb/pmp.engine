@@ -22,7 +22,7 @@
 #'
 #'
 #' @examples
-#' data(port_id)
+#' data("port_id")
 #'
 #'
 "port_id"
