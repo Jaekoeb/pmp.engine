@@ -133,6 +133,9 @@ black_litterman <- function(returns, weights, tau, views, freq, lambda, col.date
   posterior <- posterior[, 1]
   upd.weight <- upd.weight[, 1]
 
+  # norm the updated weights to 1
+  upd.weight <- upd.weight / sum(upd.weight)
+
   # sort weights
   weights <- weights[sort(names(weights))]
 
