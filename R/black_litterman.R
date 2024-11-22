@@ -6,7 +6,7 @@
 #' @param returns A matrix of returns of the asset classes in long format.
 #' @param weights Strategic / Current Weights of the asset classes.
 #' @param tau Uncertainty parameter.
-#' @param views Views data frame should be of specific form given in details.
+#' @param view Views data frame should be of specific form given in details.
 #' @param freq Frequency of returns, given as an integer.
 #' @param lambda Level of risk aversion in the market
 #' @param col.date Name of the date columns in returns.
@@ -25,7 +25,7 @@
 #'
 #' `views`: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
 #' In this way we can give views as confidence intervals. For example we say: "Equities will return 5-10% with 90% confidence".
-#' The input `views` should be of a specific form for this functions. It should be a data frame with columns: `asset`, `min`, `max`
+#' The input `view` should be of a specific form for this functions. It should be a data frame with columns: `asset`, `min`, `max`
 #' and `conf`. Here each view corresponds to a column.
 #'
 #'
@@ -35,7 +35,7 @@
 #' @return Returns a list containing the implied returns, posterior returns, input weights and new weights.
 #' @export
 #'
-black_litterman <- function(returns, weights, tau, views, freq, lambda, col.date, col.symb, col.return){
+black_litterman <- function(returns, weights, tau, view, freq, lambda, col.date, col.symb, col.return){
 
 
 
