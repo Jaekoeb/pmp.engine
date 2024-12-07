@@ -11,7 +11,7 @@
 #' @return Return aggregated return data frame
 #' @export
 #'
-#' @importFrom dplyr left_join select join_by group_by summarize ungroup
+#' @importFrom dplyr left_join select join_by group_by summarize ungroup first
 #'
 aggregate_returns <- function(df_returns,
                               df_info,
@@ -32,7 +32,8 @@ aggregate_returns <- function(df_returns,
     group_by({{aggregate.by}}, {{col.date}}) |>
     summarize(
       date = first({{col.date}}),
-      ret = sum({{col.ret}} * {{col.weight}}) / sum({{col.weight}})
+      ret = sum({{col.ret}} * {{col.weight}}) / sum({{col.weight}}),
+      weight = sum({{col.weight}})
     ) |>
     ungroup()
 
