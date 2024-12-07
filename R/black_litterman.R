@@ -23,7 +23,7 @@
 #' say 3, and then scale corresponding to the level of the VIX. Is the VIX historically high, risk aversion is higher in the market thus leading
 #' to a higher risk aversion parameter.
 #'
-#' `views`: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
+#' `view`: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
 #' In this way we can give views as confidence intervals. For example we say: "Equities will return 5-10% with 90% confidence".
 #' The input `view` should be of a specific form for this functions. It should be a data frame with columns: `asset`, `min`, `max`
 #' and `conf`. Here each view corresponds to a column.
@@ -64,13 +64,13 @@ black_litterman <- function(returns, weights, tau, view, freq, lambda, col.date,
 # VIEWS MATRIX ------------------------------------------------------------
   # sort the views based on the covariance matrix
   # construct the Views matrix
-  mu <- views |>
+  mu <- view |>
     mutate(view = 0.5 * min + 0.5 * max) |>
     select(view) |>
     pull()
 
   # add columns names
-  names(mu) <- views |> select(asset) |> pull()
+  names(mu) <- view |> select(asset) |> pull()
 
   # rearrange alphabetically
   mu <- mu[sort(names(mu))]
