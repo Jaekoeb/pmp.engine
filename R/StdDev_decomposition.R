@@ -23,48 +23,58 @@
 StdDev_decomposition <- function(df_returns,
                                  df_info,
                                  clean = "boudt",
-                                 col.id = id,
-                                 col.weight = weight,
-                                 col.date = date,
-                                 col.ret = ret){
+                                 col.id = "id",
+                                 col.weight = "weight",
+                                 col.date = "date",
+                                 col.ret = "ret"){
 
 
-  # change returns to a xts format
+
+  # Rename columns to default names for consistency
   df_returns <- df_returns |>
-    pivot_wider(names_from = {{col.id}}, values_from = {{col.ret}})
+    rename(id = all_of(col.id),
+           date = all_of(col.date),
+           ret = all_of(col.ret))
+
+  df_info <- df_info |>
+    rename(id = all_of(col.id),
+           weight = all_of(col.weight))
+
+  # Transform returns into xts format
+  df_returns <- df_returns |>
+    pivot_wider(names_from = id, values_from = ret)
 
   df_returns <- df_returns |>
-    select(-{{col.date}}) |>
-    xts(order.by = df_returns |> select({{col.date}}) |> pull() |> as.Date())
+    select(-date) |>
+    xts(order.by = as.Date(df_returns$date))
 
+  # Create helper data frame for weights
+  helper <- data.frame(id = names(df_returns)) |>
+    left_join(df_info, by = "id")
 
-  # write helper data frame to match asset returns to asset weights
-  helper <- data.frame(id = names(df_returns))
-  helper <- left_join(helper, df_info |> select({{col.id}}, {{col.weight}}), by = join_by({{col.id}}))
+  # Extract weights and scale them
+  wgt <- helper |>
+    pull(weight) / 100
 
-  # extract the weights
-  wgt <- helper |> select({{col.weight}}) |> pull()
-  wgt <- wgt / 100
-
-
-  # compute the risk contribution
+  # Compute the risk contribution
   result <- StdDev(df_returns,
                    clean = clean,
                    portfolio_method = "component",
                    weights = wgt)
 
-  # figure out scale in order to annualize the StdDev
+  # Determine periodicity for scaling
   scale <- switch(periodicity(df_returns)$scale,
                   "daily" = 252,
                   "weekly" = 52,
                   "monthly" = 12,
                   "quarterly" = 4,
-                  "yearly" = 1)
+                  "yearly" = 1,
+                  stop("Unknown periodicity"))
 
-  # annualize volatilities
+
+  # Annualize volatilities
   result$StdDev <- result$StdDev * sqrt(scale)
   result$contribution <- result$contribution * sqrt(scale)
-
 
   return(result)
 
