@@ -10,10 +10,10 @@ VaR_decomposition(
   clean = "boudt",
   method = "modified",
   sign = 0.95,
-  col.id = id,
-  col.weight = weight,
-  col.date = date,
-  col.ret = ret
+  col.id = "id",
+  col.weight = "weight",
+  col.date = "date",
+  col.ret = "ret"
 )
 }
 \arguments{

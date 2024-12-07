@@ -26,7 +26,7 @@ data. It includes price data for 2023.
 \emph{It should not be used for current analysis, as it might not be up to date}
 }
 \examples{
-data(port_price)
+data("port_price")
 
 
 }

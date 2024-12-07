@@ -28,7 +28,7 @@ Current Replacements:
 Replaced the Eskom Bond with a South African Governement Bond. Both are denominated in ZAR and have similar maturity.
 }
 \examples{
-data(replaceDF)
+data("replaceDF")
 
 
 }

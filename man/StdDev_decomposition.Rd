@@ -8,10 +8,10 @@ StdDev_decomposition(
   df_returns,
   df_info,
   clean = "boudt",
-  col.id = id,
-  col.weight = weight,
-  col.date = date,
-  col.ret = ret
+  col.id = "id",
+  col.weight = "weight",
+  col.date = "date",
+  col.ret = "ret"
 )
 }
 \arguments{

@@ -20,7 +20,7 @@ This data set can be used to run the demo for the black litterman model.
 }
 \examples{
 # load the data
-data(bl_data)
+data("bl_data")
 
 # run the demo
 demo("bl_demo")
