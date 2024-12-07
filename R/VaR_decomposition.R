@@ -27,28 +27,37 @@ VaR_decomposition <- function(df_returns,
                               clean = "boudt",
                               method = "modified",
                               sign = 0.95,
-                              col.id = id,
-                              col.weight = weight,
-                              col.date = date,
-                              col.ret = ret){
+                              col.id = "id",
+                              col.weight = "weight",
+                              col.date = "date",
+                              col.ret = "ret"){
 
 
-  # change returns to a xts format
+  # Rename columns to default names for consistency
   df_returns <- df_returns |>
-    pivot_wider(names_from = {{col.id}}, values_from = {{col.ret}})
+    rename(id = all_of(col.id),
+           date = all_of(col.date),
+           ret = all_of(col.ret))
+
+  df_info <- df_info |>
+    rename(id = all_of(col.id),
+           weight = all_of(col.weight))
+
+  # Transform returns into xts format
+  df_returns <- df_returns |>
+    pivot_wider(names_from = id, values_from = ret)
 
   df_returns <- df_returns |>
-    select(-{{col.date}}) |>
-    xts(order.by = df_returns |> select({{col.date}}) |> pull() |> as.Date())
+    select(-date) |>
+    xts(order.by = as.Date(df_returns$date))
 
+  # Create helper data frame for weights
+  helper <- data.frame(id = names(df_returns)) |>
+    left_join(df_info, by = "id")
 
-  # write helper data frame to match asset returns to asset weights
-  helper <- data.frame(id = names(df_returns))
-  helper <- left_join(helper, df_info |> select({{col.id}}, {{col.weight}}), by = join_by({{col.id}}))
-
-  # extract the weights
-  wgt <- helper |> select({{col.weight}}) |> pull()
-  wgt <- wgt / 100
+  # Extract weights and scale them
+  wgt <- helper |>
+    pull(weight) / 100
 
 
   # compute the risk contribution
