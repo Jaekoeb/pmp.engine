@@ -36,3 +36,6 @@ Returns the a list of the risk decomposition by volatility for all assets in the
 This function computes the attribution of each asset in the portfolio
 to the total portfolio volatility
 }
+\details{
+The column names paramters should be given as a string.
+}

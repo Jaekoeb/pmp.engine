@@ -12,6 +12,10 @@
 #' @param col.date Name of the date column in df_returns
 #' @param col.ret Name of the return column in df_returns
 #'
+#' @details
+#' The column names paramters should be given as a string.
+#'
+#'
 #' @return Returns the a list of the risk decomposition by volatility for all assets in the portfolio.
 #' @export
 #'

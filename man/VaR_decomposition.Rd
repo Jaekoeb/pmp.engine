@@ -42,3 +42,6 @@ Returns the a list of the risk decomposition by VaR for all assets in the portfo
 This function computes the attribution of each asset in the portfolio
 to the total portfolio value at risk
 }
+\details{
+The column names paramters should be given as a string.
+}
