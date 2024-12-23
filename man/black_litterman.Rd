@@ -8,7 +8,7 @@ black_litterman(
   returns,
   weights,
   tau,
-  views,
+  view,
   freq,
   lambda,
   col.date,
@@ -23,7 +23,7 @@ black_litterman(
 
 \item{tau}{Uncertainty parameter.}
 
-\item{views}{Views data frame should be of specific form given in details.}
+\item{view}{Views data frame should be of specific form given in details.}
 
 \item{freq}{Frequency of returns, given as an integer.}
 
@@ -52,8 +52,8 @@ An important step of implementing the model is calibrating the parameters, I wil
 say 3, and then scale corresponding to the level of the VIX. Is the VIX historically high, risk aversion is higher in the market thus leading
 to a higher risk aversion parameter.
 
-\code{views}: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
+\code{view}: The views can be in principle any linear combinations of the asset classes. This implementation only considers absolute views about asset classes.
 In this way we can give views as confidence intervals. For example we say: "Equities will return 5-10\% with 90\% confidence".
-The input \code{views} should be of a specific form for this functions. It should be a data frame with columns: \code{asset}, \code{min}, \code{max}
+The input \code{view} should be of a specific form for this functions. It should be a data frame with columns: \code{asset}, \code{min}, \code{max}
 and \code{conf}. Here each view corresponds to a column.
 }

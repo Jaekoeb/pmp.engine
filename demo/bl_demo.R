@@ -31,7 +31,7 @@ black_litterman(
   returns = bl_data,
   weights = wgt,
   tau = tau,
-  views = view,
+  view = view,
   freq = freq,
   lambda = lambda,
   col.date = "date",

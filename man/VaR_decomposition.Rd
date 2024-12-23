@@ -10,10 +10,10 @@ VaR_decomposition(
   clean = "boudt",
   method = "modified",
   sign = 0.95,
-  col.id = id,
-  col.weight = weight,
-  col.date = date,
-  col.ret = ret
+  col.id = "id",
+  col.weight = "weight",
+  col.date = "date",
+  col.ret = "ret"
 )
 }
 \arguments{
@@ -41,4 +41,7 @@ Returns the a list of the risk decomposition by VaR for all assets in the portfo
 \description{
 This function computes the attribution of each asset in the portfolio
 to the total portfolio value at risk
+}
+\details{
+The column names paramters should be given as a string.
 }

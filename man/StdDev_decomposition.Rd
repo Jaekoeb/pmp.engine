@@ -8,10 +8,10 @@ StdDev_decomposition(
   df_returns,
   df_info,
   clean = "boudt",
-  col.id = id,
-  col.weight = weight,
-  col.date = date,
-  col.ret = ret
+  col.id = "id",
+  col.weight = "weight",
+  col.date = "date",
+  col.ret = "ret"
 )
 }
 \arguments{
@@ -35,4 +35,7 @@ Returns the a list of the risk decomposition by volatility for all assets in the
 \description{
 This function computes the attribution of each asset in the portfolio
 to the total portfolio volatility
+}
+\details{
+The column names paramters should be given as a string.
 }
