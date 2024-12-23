@@ -9,10 +9,10 @@
 # Libraries and Data ------------------------------------------------------
 
 # Load our package and tidyverse because thats always useful
-# library(pmp.engine)
-# library(tidyverse)
-# library(xts)
-# library(PerformanceAnalytics)
+library(pmp.engine)
+library(tidyverse)
+library(xts)
+library(PerformanceAnalytics)
 
 # Load the data here
 # In this case I load the demo data we have inside the package
@@ -229,3 +229,59 @@ Var <- VaR_decomposition(
 # - Risk-to-Return plots: Dotplot with x-axis risk (e.g vola contribution)
 #   and y-axis performance (e.g annualized return) and color the sector / currency
 
+
+# Two examples:
+
+gg <- sector_price |>
+  ggplot(aes(x = date, y = px, color = `mkt_sector`, group = `mkt_sector`)) +
+  geom_line(linewidth = 0.8) +
+  scale_color_manual(values = c("Alternative" = "#e72731",
+                                "Bond" = "#0f618a",
+                                "Equity" = "#38a45e")) +
+  theme_bw() +
+  labs(
+    title = "YTD Performance of our Portfolio",
+    x = "",
+    y = "",
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "right"
+  )
+
+plot(gg)
+
+
+# Usually you would save the plot to your pc using `ggsave`
+# ggsave(gg,
+#        filename = "result/performance.pdf",
+#        units = "cm",
+#        height = 12,
+#        width = 18)
+
+
+
+gg <- data.frame(
+  Name = names(rsk$pct_contrib_StdDev),
+  Value = rsk$pct_contrib_StdDev
+)
+
+# Order the data by decreasing Value
+gg <- gg[order(-gg$Value), ]
+
+# Create the bar graph
+gg <- ggplot(gg, aes(x = reorder(Name, -Value), y = Value)) +
+  geom_bar(stat = "identity", fill = "grey", color = "black") +
+  theme_minimal() +
+  labs(
+    title = "Volatility Contribution",
+    x = "Assets",
+    y = "Contribution (%)"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+plot(gg)
