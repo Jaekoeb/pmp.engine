@@ -8,4 +8,4 @@ How to install: make sure you have the package `devtools` installed, then run
 
 
 Check out all demos and functions via:
-## help(package = "pmp.engine")
+## `help(package = "pmp.engine")`
