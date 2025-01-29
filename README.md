@@ -5,3 +5,7 @@ I put together this R package to give our team a solid foundation for building p
 
 How to install: make sure you have the package `devtools` installed, then run
 ## `install_github("Jaekoeb/pmp.engine")`
+
+
+Check out all demos and functions via:
+## help(package = "pmp.engine")
