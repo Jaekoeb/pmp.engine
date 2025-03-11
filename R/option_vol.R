@@ -17,16 +17,16 @@
 #'
 #' @examples
 #' \dontrun{
-#'   blpConnect()
+#'   Rblpapi::blpConnect()
+#'   tickers <- data(""sp500tickers"")
 #'
-#'   option_data <- option_vol()
+#'   option_data <- option_vol(tickers)
 #'   head(option_data)
 #' }
 #'
 #' @importFrom Rblpapi bdp
 #'
-option_vol <- function() {
-  tickers <- data("sp500tickers")
+option_vol <- function(tickers = data("sp500tickers", package = "pmp.engine")) {
   colnames(tickers) <- c("Ticker", "Comp Name")
 
   data <- bdp(tickers$Ticker, c("IVOL_MONEYNESS", "VOLATILITY_360D", "AVERAGE_BID_ASK_SPREAD_%"))
