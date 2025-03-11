@@ -4,7 +4,7 @@
 \alias{option_vol}
 \title{Option Volatility}
 \usage{
-option_vol()
+option_vol(tickers = data("sp500tickers", package = "pmp.engine"))
 }
 \value{
 A data frame containing the following columns:
@@ -23,9 +23,10 @@ It then calculates the difference and ratio between historical and implied volat
 }
 \examples{
 \dontrun{
-  blpConnect()
+  Rblpapi::blpConnect()
+  tickers <- data(""sp500tickers"")
 
-  option_data <- option_vol()
+  option_data <- option_vol(tickers)
   head(option_data)
 }
 
