@@ -12,6 +12,7 @@
 #'   \item \code{Volatility Difference}: The difference between historical and implied volatility.
 #'   \item \code{Volatility Difference Ratio}: The ratio of the volatility difference to historical volatility.
 #' }
+#'
 #' @export
 #'
 #' @examples
